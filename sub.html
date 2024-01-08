@@ -1,0 +1,115 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Health Tracker</h2>
+
+<form id="healthForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+
+    <label for="height">Height (cm):</label>
+    <input type="number" id="height" required>
+
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" required>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+
+    <label for="lifestyle">Lifestyle:</label>
+    <select id="lifestyle" required>
+        <option value="active">Active</option>
+        <option value="sedentary">Sedentary</option>
+    </select>
+
+    <button type="button" onclick="calculateBMI()">Calculate BMI</button>
+
+    <div id="result"></div>
+</form>
+
+<script>
+    function calculateBMI() {
+        // Get user inputs
+        var name = document.getElementById('name').value;
+        var height = parseFloat(document.getElementById('height').value);
+        var weight = parseFloat(document.getElementById('weight').value);
+        var gender = document.getElementById('gender').value;
+        var lifestyle = document.getElementById('lifestyle').value;
+
+        // Check if any field is empty
+        if (!name || isNaN(height) || isNaN(weight)) {
+            displayError("Please fill in all fields.");
+            return;
+        }
+
+        // Calculate BMI
+        var bmi = weight / ((height / 100) * (height / 100));
+
+        // Determine BMI category
+        var category = getBMICategory(bmi);
+
+        // Display result
+        displayResult(name, bmi.toFixed(2), category);
+    }
+
+    function getBMICategory(bmi) {
+        if (bmi < 18.5) {
+            return "Underweight";
+        } else if (bmi >= 18.5 && bmi < 25) {
+            return "Normal Weight";
+        } else if (bmi >= 25 && bmi < 30) {
+            return "Overweight";
+        } else {
+            return "Obese";
+        }
+    }
+
+    function displayError(message) {
+        document.getElementById('result').innerHTML = '<div class="error">' + message + '</div>';
+    }
+
+    function displayResult(name, bmi, category) {
+        var resultMessage = `${name}, your BMI is ${bmi}, and you are categorized as ${category}.`;
+        document.getElementById('result').innerHTML = resultMessage;
+    }
+</script>
+
+</body>
+</html>
+
+    
+</body>
+</html>
